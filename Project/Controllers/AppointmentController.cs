@@ -8,12 +8,12 @@ namespace Project.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentController : ControllerBase
     {
         private readonly Appointment _appointment;
         private readonly MedCard<string, MedicalRecord> _medicalRecords;
 
-        public AppointmentsController(Appointment appointment, MedCard<string, MedicalRecord> medicalRecords)
+        public AppointmentController(Appointment appointment, MedCard<string, MedicalRecord> medicalRecords)
         {
             _appointment = appointment;
             _medicalRecords = medicalRecords;

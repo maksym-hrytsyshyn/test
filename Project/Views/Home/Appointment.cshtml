@@ -1,0 +1,69 @@
+@model IEnumerable<Project.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Manage Appointments";
+}
+
+<h2>Manage Appointments</h2>
+
+<div>
+    <h3>Add Appointment</h3>
+    <form asp-action="AddAppointment" method="post">
+        <label for="patientId">Patient ID:</label>
+        <input type="text" id="patientId" name="patientId" required><br><br>
+        
+        <label for="doctorSpecialization">Doctor Specialization:</label>
+        <select id="doctorSpecialization" name="doctorSpecialization" required>
+            @foreach(var doctor in Model)
+            {
+                <option value="@doctor.Specialization">@doctor.Specialization</option>
+            }
+        </select><br><br>
+        
+        <button type="submit">Book Appointment</button>
+    </form>
+</div>
+
+<div>
+    <h3>View Appointments</h3>
+    @if(Model != null && Model.Any())
+    {
+        <ul>
+            @foreach(var doctor in Model)
+            {
+                <li>
+                    <strong>Doctor Specialization:</strong> @doctor.Specialization<br>
+                    <strong>Doctor Name:</strong> @doctor.Name<br>
+                    <button onclick="removeAppointment('@doctor.Specialization')">Remove Appointment</button>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No appointments found.</p>
+    }
+</div>
+
+<script>
+    function removeAppointment(specialization) {
+        var confirmation = confirm("Are you sure you want to remove this appointment?");
+        if (confirmation) {
+            // Perform AJAX request to remove appointment
+            fetch(`/api/Appointment/doctors/${specialization}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Appointment removed successfully.");
+                    location.reload(); // Refresh the page
+                } else {
+                    alert("Error removing appointment.");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
+</script>

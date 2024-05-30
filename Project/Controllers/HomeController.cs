@@ -1,32 +1,56 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Models;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace Project.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly MedCard<string, MedicalRecord> _medCard;
 
-        public IActionResult Index()
+        public HomeController(MedCard<string, MedicalRecord> medCard)
+        {
+            _medCard = medCard;
+        }
+        public ActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        public ActionResult Privacy()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Register()
+        public ActionResult Register()
         {
             return View();
         }
-
-        public IActionResult RegistrationSuccess()
+        
+        [HttpPost]
+        public ActionResult Register(MedicalRecord medicalRecord)
         {
+            if (ModelState.IsValid)
+            {
+                string patientId = _medCard.MakeMedCard(medicalRecord, out _);
+                ViewBag.PatientId = patientId;
+                return RedirectToAction("RegistrationSuccess");
+            }
+            return View(medicalRecord);
+        }
+
+        public ActionResult RegistrationSuccess()
+        {
+            if (ViewBag.PatientId == null)
+            {
+                return RedirectToAction("Register");
+            }
             return View();
+        }
+        public IActionResult Records()
+        {
+            var medicalRecords = _medCard.GetAllKeys();
+            return View(medicalRecords);
         }
     }
 }

@@ -3,10 +3,16 @@
 using System;
 using System.Collections.Generic;
 
-public abstract class Doctor(string name, string specialization)
+public abstract class Doctor
 {
-    protected string Name = name;
-    protected string Specialization = specialization;
+    public string Name;
+    public string Specialization;
+    
+    public Doctor(string name, string specialization)
+    {
+        Name = name;
+        Specialization = specialization;
+    }
 
     public string GetName()
     {

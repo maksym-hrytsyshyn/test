@@ -2,15 +2,16 @@
 
 public class Appointment
 {
-    public Dictionary<string, List<Doctor>> _doctors = new();
+    public Dictionary<string, List<Doctor>> _doctors = new Dictionary<string, List<Doctor>>();
 
     public void AddDoctor(Doctor doctor)
     {
-        if (!_doctors.ContainsKey(doctor.GetSpecialization()))
+        string specialization = doctor.GetSpecialization();
+        if (!_doctors.ContainsKey(specialization))
         {
-            _doctors[doctor.GetSpecialization()] = new List<Doctor>();
+            _doctors[specialization] = new List<Doctor>();
         }
-        _doctors[doctor.GetSpecialization()].Add(doctor);
+        _doctors[specialization].Add(doctor);
     }
 
     public DateTime FindNearestAvailableDateTime(string specialization)
@@ -79,32 +80,17 @@ public class Appointment
         return true;
     }
 
-    public void DisplayDoctors(string specialization)
+    public IEnumerable<Doctor> GetAllDoctors()
+    {
+        return _doctors.Values.SelectMany(doctors => doctors);
+    }
+
+    public IEnumerable<Doctor> GetDoctorsBySpecialization(string specialization)
     {
         if (_doctors.ContainsKey(specialization))
         {
-            foreach (var doctor in _doctors[specialization])
-            {
-                doctor.DisplayInfo();
-                Console.WriteLine();
-            }
+            return _doctors[specialization];
         }
-    }
-
-    public void DisplaySpecializations(Appointment appointment)
-    {
-        HashSet<string> specializations = new HashSet<string>();
-        foreach (var pair in appointment._doctors)
-        {
-            foreach (Doctor doctor in pair.Value)
-            {
-                specializations.Add(doctor.GetSpecialization());
-            }
-        }
-        Console.WriteLine("Available specializations:");
-        foreach (string specialization in specializations)
-        {
-            Console.WriteLine("- " + specialization);
-        }
+        return Enumerable.Empty<Doctor>();
     }
 }

@@ -3,9 +3,13 @@
 using System;
 using System.Collections.Generic;
 
-public class EnTdoctor(string name, string specialization) : Doctor(name, specialization)
+public class EnTdoctor: Doctor
 {
     private List<KeyValuePair<int, int>> _schedule = new();
+    
+    public EnTdoctor(string name, string specialization) : base(name, specialization)
+    {
+    }
 
     public void AddSchedule(KeyValuePair<int, int> time)
     {
@@ -15,7 +19,7 @@ public class EnTdoctor(string name, string specialization) : Doctor(name, specia
     public override void DisplayInfo()
     {
         Console.WriteLine("Name: " + GetName());
-        Console.WriteLine("Specialization: " + specialization);
+        Console.WriteLine("Specialization: " + Specialization);
         Console.WriteLine("Schedule:");
         foreach (var scheduleItem in _schedule)
         {
@@ -25,7 +29,7 @@ public class EnTdoctor(string name, string specialization) : Doctor(name, specia
 
     public override void BookAppointment(Data time)
     {
-        Console.WriteLine($"Appointment booked with {name} at {time}");
+        Console.WriteLine($"Appointment booked with {Name} at {time}");
     }
 
     public override List<KeyValuePair<int, int>> GetSchedule()

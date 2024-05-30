@@ -1,0 +1,27 @@
+@model IEnumerable<Project.Models.MedicalRecord>
+
+@{
+ViewData["Title"] = "View Records";
+}
+
+<h2>All Medical Records</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Patient ID</th>
+        <th>Full Name</th>
+        <th>Date of Birth</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var record in Model)
+    {
+    <tr>
+        <td>@record.PatientId</td>
+        <td>@record.FullName</td>
+        <td>@record.DateOfBirth</td>
+    </tr>
+    }
+    </tbody>
+</table>

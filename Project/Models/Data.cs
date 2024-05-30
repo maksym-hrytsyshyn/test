@@ -24,6 +24,7 @@ public struct Data
     public int Year { get; set; }
     public int Hour { get; set; }
     public int Minute { get; set; }
+    public object Key { get; set; }
 
     public bool IsEqual(Data other)
     {
@@ -33,7 +34,7 @@ public struct Data
     
     public string FormatDate()
     {
-        return $"{Day}.{Month}.{Year} {Hour}:{Minute}";
+        return $"{Day:D2}.{Month:D2}.{Year:yyyy} {Hour:D2}:{Minute:D2}";
     }
     
     public string GetDayOfWeek(int day)

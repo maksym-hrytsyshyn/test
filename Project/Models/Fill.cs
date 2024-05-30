@@ -1,8 +1,10 @@
-﻿namespace Project.Models;
+﻿using Project.Controllers;
+
+namespace Project.Models;
 
 public  static class Fill
 {
-  public static void fill(Appointment appointment, MedCard<string, MedicalRecord> medicalRecords)
+  public static void FillAppointment(Appointment appointment, MedCard<string, MedicalRecord> medicalRecords)
     {
         Pediatrician ped1 = new Pediatrician("Drs. Melnyk", "Pediatrics");
         ped1.AddSchedule(new KeyValuePair<int, int>(1, 9));   // Monday = 1, ..., Sunday = 7; second parameter is the hour

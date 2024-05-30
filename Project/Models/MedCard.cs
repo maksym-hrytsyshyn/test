@@ -1,16 +1,24 @@
-﻿namespace Project.Models;
+﻿using System.Collections.Concurrent;
 
-// public class Template
-// {
-//     
-// }
-public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
+namespace Project.Controllers;
+
+
+public class MedCard<TKey, TValue>
 {
-    private class Node(Key key, Value value)
+    private readonly ConcurrentDictionary<TKey, TValue> _records = new();
+    
+    private class Node
     {
-        public Key Key { get; set; } = key;
-        public Value Value { get; set; } = value;
-        public Node Next { get; set; } = null!;
+        public TKey Key { get; set; }
+        public TValue Value { get; set; }
+        public Node Next { get; set; }
+
+        public Node(TKey key, TValue value)
+        {
+            Key = key;
+            Value = value;
+            Next = null;
+        }
     }
 
     private const int Size = 1000000;
@@ -25,7 +33,7 @@ public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
         }
     }
 
-    private static int Hash(Key key)
+    private static int Hash(TKey key)
     {
         int hash = 0;
         foreach (char c in key.ToString()!)
@@ -35,7 +43,7 @@ public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
         return hash;
     }
 
-    public void Insert(Key key, Value value)
+    public void Insert(TKey key, TValue value)
     {
         int index = Hash(key);
         Node newNode = new Node(key, value);
@@ -46,34 +54,33 @@ public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
             {
                 current = current.Next;
             }
-
             current.Next = newNode;
         }
-
-        _table[index] = newNode;
-
+        else
+        {
+            _table[index] = newNode;
+        }
     }
 
-    public bool Find(Key key, out Value value)
+
+    public bool Find(TKey key, out TValue value)
     {
         int index = Hash(key);
         Node current = _table[index];
         while (current != null)
         {
-            if (!current.Key.Equals(key))
+            if (current.Key.Equals(key))
             {
-                current = current.Next;
+                value = current.Value;
+                return true;
             }
-            
-            value = current.Value;
-            return true;
-
+            current = current.Next;
         }
         value = default!;
         return false;
     }
 
-    public void Update(Key key, Value value)
+    public void Update(TKey key, TValue value)
     {
         int index = Hash(key);
         Node current = _table[index];
@@ -86,10 +93,11 @@ public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
             }
             current = current.Next;
         }
-        Console.WriteLine("Key not found in hash table");
+        throw new KeyNotFoundException("Key not found in hash table");
     }
 
-    public void Remove(Key key)
+
+    public void Remove(TKey key)
     {
         int index = Hash(key);
         Node current = _table[index];
@@ -113,16 +121,18 @@ public class MedCard<Key, Value> where Key : IComparable<Key>, IEquatable<Key>
         }
     }
 
-    public string MakeMedCard(MedicalRecord patient, out string patientId)
+    public TKey MakeMedCard(TValue record, out TKey key)
     {
-        patientId = DataGenerator.GenerateRandomId();
-        Insert((Key)(object)patientId, (Value)(object)patient);
-        return patientId;
+        // Generate a new key (for simplicity, using Guid)
+        key = (TKey)(object)Guid.NewGuid().ToString();
+
+        _records[key] = record;
+        return key;
     }
 
-    public List<Key> GetAllKeys()
+    public List<TKey> GetAllKeys()
     {
-        List<Key> keys = new List<Key>();
+        List<TKey> keys = new List<TKey>();
         for (int i = 0; i < Size; i++)
         {
             Node current = _table[i];

@@ -1,13 +1,18 @@
-﻿namespace Project.Models;
+﻿using System;
+using System.Collections.Generic;
 
-public class MedicalRecord
+namespace Project.Models
 {
-    public string FullName { get; set; }
-    public Data DateOfBirth { get; set; }
-    public List<KeyValuePair<string, Data>> Appointments { get; set; } = new();
-
-    public string GetBirthdate()
+    public class MedicalRecord
     {
-        return DateOfBirth.FormatDate();
+        public string PatientId { get; set; }
+        public string FullName { get; set; }
+        public Data DateOfBirth { get; set; }
+        public List<KeyValuePair<string, Data>> Appointments { get; set; } = new List<KeyValuePair<string, Data>>();
+
+        public string GetBirthdate()
+        {
+            return DateOfBirth.FormatDate();
+        }
     }
 }

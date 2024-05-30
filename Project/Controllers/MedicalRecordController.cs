@@ -1,38 +1,47 @@
 using Microsoft.AspNetCore.Mvc;
 using Project.Models;
+using System;
 
 namespace Project.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MedicalRecordsController : ControllerBase
+    public class MedicalRecordController(
+        MedCard<string, MedicalRecord> medCard,
+        ILogger<MedicalRecordController> logger)
+        : ControllerBase
     {
-        private readonly MedCard<string, MedicalRecord> _medicalRecords;
-
-        public MedicalRecordsController(MedCard<string, MedicalRecord> medicalRecords)
-        {
-            _medicalRecords = medicalRecords;
-        }
-
         [HttpPost("create")]
-        public  ActionResult<string> CreateMedicalCard([FromBody] MedicalRecord patient)
+        public ActionResult<string> CreateMedicalCard([FromBody] MedicalRecord patient)
         {
-            if (ModelState.IsValid)
+            try
             {
+                logger.LogInformation("Creating a new medical card.");
+                
                 if (ModelState.IsValid)
                 {
-                    var patientId = _medicalRecords.MakeMedCard(patient, out string patientI);
+                    var patientId = medCard.MakeMedCard(patient, out string key);
+                    logger.LogInformation("Medical card created successfully with ID: " + patientId);
                     return Ok(patientId);
                 }
-                return BadRequest("An error occurred while creating the medical card.");
+                else
+                {
+                    var errorMessages = string.Join("; ", ModelState.Values
+                        .SelectMany(x => x.Errors)
+                        .Select(x => x.ErrorMessage));
+                    return BadRequest("Invalid model state: " + errorMessages);
+                }
             }
-            return BadRequest(ModelState);
+            catch (Exception ex)
+            {
+                return BadRequest($"Exception occurred: {ex.Message}");
+            }
         }
 
         [HttpGet("{patientId}")]
         public ActionResult GetMedicalRecordById(string patientId)
         {
-            if (!_medicalRecords.Find(patientId, out var patient))
+            if (!medCard.Find(patientId, out var patient))
             {
                 return NotFound("Patient not found.");
             }
@@ -43,12 +52,12 @@ namespace Project.Controllers
         [HttpDelete("{patientId}")]
         public ActionResult RemoveMedicalCard(string patientId)
         {
-            if (!_medicalRecords.Find(patientId, out var patient))
+            if (!medCard.Find(patientId, out var patient))
             {
                 return NotFound("Patient not found.");
             }
 
-            _medicalRecords.Remove(patientId);
+            medCard.Remove(patientId);
             return Ok("Medical card removed successfully.");
         }
 
@@ -56,9 +65,9 @@ namespace Project.Controllers
         public ActionResult GetAllMedicalCards()
         {
             var medicalCards = new List<object>();
-            foreach (var key in _medicalRecords.GetAllKeys())
+            foreach (var key in medCard.GetAllKeys())
             {
-                if (_medicalRecords.Find(key, out var record))
+                if (medCard.Find(key, out var record))
                 {
                     medicalCards.Add(new { Id = key, record.FullName });
                 }
