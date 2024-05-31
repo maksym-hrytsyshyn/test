@@ -1,6 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\Lenovo\AppData\Local\JetBrains\Rider2024.1\resharper-host\temp\Rider\vAny\CoverageData\_WebApplication1.761032914\Snapshot\snapshot.utdcvr</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ec89a4c_002D55f1_002D4812_002D82af_002D8bb7443adeaa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from AppointmentTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9ec89a4c_002D55f1_002D4812_002D82af_002D8bb7443adeaa/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from AppointmentTest.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;ProjectFile&gt;5E974887-D190-433D-B7C8-5B6FE0C7ABB6/f:AppointmentTest.cs&lt;/ProjectFile&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=e1f9dbbd_002D7ec3_002D4ac2_002D969f_002Dc07eefa4bfbd/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Appointments_ShouldStoreAppointments" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -8,7 +8,7 @@
     &lt;TestId&gt;NUnit3x::5E974887-D190-433D-B7C8-5B6FE0C7ABB6::net8.0::Project.Tests.MedicalRecordTests.Appointments_ShouldStoreAppointments&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9a70f8a_002Dfcc4_002D4b6d_002D8434_002D25b9cd2e6be0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Appointments_ShouldStoreAppointments #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f9a70f8a_002Dfcc4_002D4b6d_002D8434_002D25b9cd2e6be0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Appointments_ShouldStoreAppointments #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;ProjectFile&gt;5E974887-D190-433D-B7C8-5B6FE0C7ABB6/f:DateTimeTest.cs&lt;/ProjectFile&gt;&#xD;
     &lt;ProjectFile&gt;5E974887-D190-433D-B7C8-5B6FE0C7ABB6/f:DoctorTest.cs&lt;/ProjectFile&gt;&#xD;

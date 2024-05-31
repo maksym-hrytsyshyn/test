@@ -6,7 +6,7 @@ namespace Project.Controllers
     public class HomeController : Controller
     {
         private readonly MedCard<string, MedicalRecord> _medCard;
-
+        
         public HomeController(MedCard<string, MedicalRecord> medCard)
         {
             _medCard = medCard;
@@ -50,7 +50,7 @@ namespace Project.Controllers
         public IActionResult Records()
         {
             var medicalRecords = _medCard.GetAllKeys();
-            return View(medicalRecords);
+            return View();
         }
     }
 }

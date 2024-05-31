@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using Project.Controllers;
 using Project.Models;
 
 namespace Project.Tests

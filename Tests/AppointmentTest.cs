@@ -50,7 +50,7 @@ namespace Project.Tests
         {
             // Arrange
             var doctor = new Pediatrician("Dr. Smith", "Pediatrics");
-            doctor.AddSchedule(new KeyValuePair<int, int>(2, 10)); // Monday at 10 AM
+            doctor.AddSchedule(new KeyValuePair<int, int>(6, 10)); // Monday at 10 AM
             _appointment.AddDoctor(doctor);
 
             // Act
@@ -59,7 +59,7 @@ namespace Project.Tests
             // Assert
             // Assuming today is Monday
             var expectedDateTime = DateTime.Today.AddDays(1).AddHours(10); // Next Monday at 10 AM
-               Assert.AreEqual(expectedDateTime, nextAvailableDateTime);
+            Assert.AreEqual(expectedDateTime, nextAvailableDateTime);
         }
 
         [Test]
@@ -92,25 +92,48 @@ namespace Project.Tests
         }
 
         [Test]
-        public void DisplayDoctors_WhenSpecializationExists_ShouldDisplayDoctorInfo()
+        public void AddAppointment_WhenAppointmentTimeIsAvailable_ShouldReturnTrueAndAddAppointment()
         {
             // Arrange
-            var doctor = new Pediatrician("Dr. Smith", "Pediatrics");
-            _appointment.AddDoctor(doctor);
+            var dateTime = new Data(2024, 5, 30);
 
-            // Act & Assert
-            Assert.DoesNotThrow(() => _appointment.DisplayDoctors("Pediatrics"));
+            // Act
+            var result = _appointment.AddAppointment(_medicalRecord, "Dr. Smith", dateTime);
+
+            // Assert
+            Assert.IsTrue(result);
+            Assert.Contains(new KeyValuePair<string, Data>("Dr. Smith", dateTime), _medicalRecord.Appointments);
         }
 
         [Test]
-        public void DisplaySpecializations_WhenDoctorsExist_ShouldDisplaySpecializations()
+        public void GetDoctorsBySpecialization_WhenSpecializationExists_ShouldReturnDoctors()
         {
             // Arrange
             var doctor = new Pediatrician("Dr. Smith", "Pediatrics");
             _appointment.AddDoctor(doctor);
 
-            // Act & Assert
-            Assert.DoesNotThrow(() => _appointment.DisplaySpecializations(_appointment));
+            // Act
+            var doctors = _appointment.GetDoctorsBySpecialization("Pediatrics");
+
+            // Assert
+            CollectionAssert.Contains(doctors, doctor);
+        }
+
+        [Test]
+        public void GetAllDoctors_WhenDoctorsExist_ShouldReturnAllDoctors()
+        {
+            // Arrange
+            var doctor1 = new Pediatrician("Dr. Smith", "Pediatrics");
+            var doctor2 = new Surgeon("Dr. Jones", "Surgery");
+            _appointment.AddDoctor(doctor1);
+            _appointment.AddDoctor(doctor2);
+
+            // Act
+            var doctors = _appointment.GetAllDoctors();
+
+            // Assert
+            CollectionAssert.Contains(doctors, doctor1);
+            CollectionAssert.Contains(doctors, doctor2);
         }
     }
 }
