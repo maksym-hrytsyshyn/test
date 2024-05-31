@@ -16,6 +16,7 @@ public class Startup
     {
         services.AddControllersWithViews();
         services.AddSingleton<MedCard<string, MedicalRecord>>();
+        services.AddSingleton<Appointment>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

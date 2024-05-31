@@ -50,7 +50,7 @@
         var confirmation = confirm("Are you sure you want to remove this appointment?");
         if (confirmation) {
             // Perform AJAX request to remove appointment
-            fetch(`/api/Appointment/doctors/${specialization}`, {
+            fetch(`/api/Appointment/patient/1/appointment/0`, {
                 method: 'DELETE'
             })
             .then(response => {
